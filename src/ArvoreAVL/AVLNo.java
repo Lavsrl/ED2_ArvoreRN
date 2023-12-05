@@ -74,15 +74,16 @@ public class AVLNo {
     }
 
     AVLNo rotacaoLL(AVLNo raiz) {
-        AVLNo no = raiz.noEsquerda;//No auxiliar
-        raiz.noEsquerda = no.noDireita;
-        no.noDireita = raiz;
-        raiz.alt = getMax(getAltura(raiz.noEsquerda), getAltura(raiz.noDireita)) + 1;
-
-        no.alt = getMax(getAltura(no.noEsquerda), raiz.alt) + 1;
-        return no; //Raiz passa a ser quem estiver no nó
-
+    if (raiz == null || raiz.noEsquerda == null) {
+        return raiz;
     }
+    AVLNo no = raiz.noEsquerda;
+    raiz.noEsquerda = no.noDireita;
+    no.noDireita = raiz;
+    raiz.alt = getMax(getAltura(raiz.noEsquerda), getAltura(raiz.noDireita)) + 1;
+    no.alt = getMax(getAltura(no.noEsquerda), raiz.alt) + 1;
+    return no;
+}
 
 
     AVLNo rotacaoRR(AVLNo raiz) {
@@ -129,8 +130,7 @@ public class AVLNo {
                         raizAtual = rotacaoRL(raizAtual);
                     }
                 }
-            } else {
-                System.out.println("Valor duplicado");
+
             }
         }
         raizAtual.alt =
