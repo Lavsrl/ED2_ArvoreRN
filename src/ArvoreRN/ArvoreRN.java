@@ -1,7 +1,5 @@
 package ArvoreRN;
 
-import ArvoreAVL.AVLNo;
-
 public class ArvoreRN {
         int info;
         ArvoreRN noDireita;
@@ -21,7 +19,7 @@ public class ArvoreRN {
 
         public ArvoreRN(int[] vetor) {
             for (int i = 0; i < vetor.length; i++) {
-                insere(this, vetor[i]);
+                inserir(this, vetor[i]);
             }
         }
 
@@ -137,7 +135,7 @@ public class ArvoreRN {
             return balancear(raiz);//Retorna o nó balanceado
         }
 
-        public boolean insere(ArvoreRN raiz, int valor) {
+        public boolean inserir(ArvoreRN raiz, int valor) {
             if (busca(raiz, valor) == true) {//Se o valor já existir na árvore
                 return false;//Retorna falso
             }

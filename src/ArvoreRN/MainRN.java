@@ -22,7 +22,7 @@ public class MainRN {
             randomNumbers[i] = random;
 
             if (random % 3 == 0) {
-                arvore.insere(arvore, randomNumbers[i]);
+                arvore.inserir(arvore, randomNumbers[i]);
             } else if (random % 5 == 0) {
                 arvore.remover(arvore, randomNumbers[i]);
             } else {

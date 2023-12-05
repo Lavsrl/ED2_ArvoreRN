@@ -21,7 +21,7 @@ public class MainAVL {
             if (random % 3 == 0) {
                 arvore.inserir(arvore, randomNumbers[i]);
             } else if (random % 5 == 0) {
-                arvore.remove(arvore, randomNumbers[i]);
+                arvore.remover(arvore, randomNumbers[i]);
             } else {
                 int avlContagem = arvore.contagem(arvore, randomNumbers[i]);
                 System.out.println("Quantas vezes o número" + randomNumbers[i] + " aparece: " + avlContagem);

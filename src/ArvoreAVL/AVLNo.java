@@ -148,14 +148,14 @@ public class AVLNo {
         return no1; //Retorna o nó mais a esquerda
     }
 
-    AVLNo remove(AVLNo raiz, int valor){
+    AVLNo remover(AVLNo raiz, int valor){
         if(raiz == null){
             return raiz;
         }
         if(valor < raiz.info){
-            raiz.noEsquerda = remove(raiz.noEsquerda, valor);
+            raiz.noEsquerda = remover(raiz.noEsquerda, valor);
         }else if(valor > raiz.info){
-            raiz.noDireita = remove(raiz.noDireita, valor);
+            raiz.noDireita = remover(raiz.noDireita, valor);
         }else{
             if((raiz.noEsquerda == null) || (raiz.noDireita == null)){
                 AVLNo temp = null;
@@ -173,7 +173,7 @@ public class AVLNo {
             }else{
                 AVLNo temp = procuraMenor(raiz.noDireita);
                 raiz.info = temp.info;
-                raiz.noDireita = remove(raiz.noDireita, temp.info);
+                raiz.noDireita = remover(raiz.noDireita, temp.info);
             }
         }
         if(raiz == null){
