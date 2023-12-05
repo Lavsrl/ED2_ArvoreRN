@@ -1,4 +1,6 @@
-package Arvores;
+package ArvoreRN;
+
+import ArvoreAVL.AVLNo;
 
 public class ArvoreRN {
         int info;
@@ -87,17 +89,14 @@ public class ArvoreRN {
             return raiz;//Retorna o nó
         }
 
-    int contagem(ArvoreRN no, int valor) {
-        int count = 0;
-        if (no != null) {
-            if (no.info == valor) {
-                count++;
-            }
-            count += contagem(no.noEsquerda, valor);
-            count += contagem(no.noDireita, valor);
+    int contagem(ArvoreRN raiz, int valor) {
+        int count = 1;
+        if(busca(raiz, valor) == true){
+            count += 1;
         }
         return count;
     }
+
 
     boolean busca(ArvoreRN raiz, int valor) {
         ArvoreRN atual = raiz;

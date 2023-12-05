@@ -1,4 +1,6 @@
-package Arvores;
+package ArvoreAVL;
+
+import ArvoreRN.ArvoreRN;
 
 public class AVLNo {
     int info;
@@ -48,18 +50,28 @@ public class AVLNo {
         return 0;
     }
 
-    int contagem(AVLNo no, int valor) {
-        int count = 0;
-        if (no != null) {
-            if (no.info == valor) {
-                count++;
-            }
-            count += contagem(no.noEsquerda, valor);
-            count += contagem(no.noDireita, valor);
+    int contagem(AVLNo raiz, int valor) {
+        int count = 1;
+        if(busca(raiz, valor) == true){
+            count += 1;
         }
         return count;
     }
 
+    boolean busca(AVLNo raiz, int valor) {
+        AVLNo atual = raiz;
+        while (atual != null) {
+            if (valor == atual.info) {
+                return true;
+            }
+            if (valor < atual.info) {
+                atual = atual.noEsquerda;
+            } else {
+                atual = atual.noDireita;
+            }
+        }
+        return false;
+    }
 
     AVLNo rotacaoLL(AVLNo raiz) {
         AVLNo no = raiz.noEsquerda;//No auxiliar
@@ -136,54 +148,52 @@ public class AVLNo {
         return no1; //Retorna o nó mais a esquerda
     }
 
-    AVLNo remove(AVLNo raizAtual, int valor) {
-        if (raizAtual == null) {//Valor não existe
-            return null;
-        } else {
-            if (valor < raizAtual.info) { //Se o valor é menor do que a informação
-                raizAtual.noEsquerda = remove(raizAtual.noEsquerda, valor);// tenta remover o nó da esquerda
-                if (getFatorBalanceamento(raizAtual) >= 2) {//Se a inserção for maior ou igual a 2, é necessário balancear
-                    if (getAltura(raizAtual.noDireita.noEsquerda) <= getAltura(raizAtual.noDireita.noDireita)) { //Comparando as alturas
-                        raizAtual = rotacaoRR(raizAtual);
-                    } else {
-                        raizAtual = rotacaoRL(raizAtual);
-                    }
+    AVLNo remove(AVLNo raiz, int valor){
+        if(raiz == null){
+            return raiz;
+        }
+        if(valor < raiz.info){
+            raiz.noEsquerda = remove(raiz.noEsquerda, valor);
+        }else if(valor > raiz.info){
+            raiz.noDireita = remove(raiz.noDireita, valor);
+        }else{
+            if((raiz.noEsquerda == null) || (raiz.noDireita == null)){
+                AVLNo temp = null;
+                if(temp == raiz.noEsquerda){
+                    temp = raiz.noDireita;
+                }else{
+                    temp = raiz.noEsquerda;
                 }
-            } else if (valor > raizAtual.info) {
-                raizAtual.noDireita = remove(raizAtual.noDireita, valor);// Tenta remover o nó da direita
-                if (getFatorBalanceamento(raizAtual) >= 2) {//Se a inserção for maior ou igual a 2, é necessário balancear
-                    if (getAltura(raizAtual.noEsquerda.noDireita) <= getAltura(raizAtual.noEsquerda.noEsquerda)) {
-                        raizAtual = rotacaoLL(raizAtual);
-                    } else {
-                        raizAtual = rotacaoLR(raizAtual);
-                    }
+                if(temp == null){
+                    temp = raiz;
+                    raiz = null;
+                }else{
+                    raiz = temp;
                 }
-            } else { //Se valor == raizAtual.info
-                if (raizAtual.noDireita == null || raizAtual.noEsquerda == null) {
-                    if (raizAtual.noEsquerda != null) { //Se o nó da esquerda não for nulo
-                        raizAtual = raizAtual.noEsquerda; //Raiz recebe o filho da esquerda
-                    } else {
-                        raizAtual = raizAtual.noDireita; //Raiz recebe o filho da direita
-                    }
-                } else {//Nó tem dois filhos
-                    AVLNo temp = procuraMenor(raizAtual.noDireita);//procurar o menor valor na subarvore da direita
-                    raizAtual.info = temp.info; //Compila as informações para o nó raiz
-                    raizAtual = remove(raizAtual.noDireita, raizAtual.info);//Remove o nó que foi compilado
-
-                    if (getFatorBalanceamento(raizAtual) >= 2) {
-                        if (getAltura(raizAtual.noDireita.noEsquerda) <= getAltura(raizAtual.noDireita.noDireita)) {
-                            raizAtual = rotacaoRR(raizAtual);
-                        } else {
-                            raizAtual = rotacaoRL(raizAtual);
-                        }
-                    }
-                }
+            }else{
+                AVLNo temp = procuraMenor(raiz.noDireita);
+                raiz.info = temp.info;
+                raiz.noDireita = remove(raiz.noDireita, temp.info);
             }
         }
-        if (raizAtual != null) {
-            raizAtual.alt = getMax(getAltura(raizAtual.noEsquerda), getAltura(raizAtual.noDireita)) + 1; //Recalcula a altura raizAtual
+        if(raiz == null){
+            return raiz;
         }
-        return raizAtual;
+        raiz.alt = getMax(getAltura(raiz.noEsquerda), getAltura(raiz.noDireita)) + 1;
+        int fatorBalanceamento = getFatorBalanceamento(raiz);
+        if(fatorBalanceamento > 1 && getFatorBalanceamento(raiz.noEsquerda) >= 0){
+            return rotacaoLL(raiz);
+        }
+        if(fatorBalanceamento > 1 && getFatorBalanceamento(raiz.noEsquerda) < 0){
+            return rotacaoLR(raiz);
+        }
+        if(fatorBalanceamento < -1 && getFatorBalanceamento(raiz.noDireita) <= 0){
+            return rotacaoRR(raiz);
+        }
+        if(fatorBalanceamento < -1 && getFatorBalanceamento(raiz.noDireita) > 0){
+            return rotacaoRL(raiz);
+        }
+        return raiz;
     }
 
 

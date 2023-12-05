@@ -1,4 +1,4 @@
-package Arvores;
+package ArvoreAVL;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
